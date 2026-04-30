@@ -1,0 +1,30 @@
+# services:
+#   postgres:
+#     image: postgres:15
+#     container_name: watchdog-db
+#     restart: always
+#     environment:
+#       POSTGRES_USER: watchdawg
+#       POSTGRES_PASSWORD: watchdawg123
+#       POSTGRES_DB: watchdawg_db
+#     ports:
+#       - '10000:5432'
+#     volumes:
+#       - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
+
+services:
+  redis:
+    image: redis:7
+    container_name: watchdog-redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis_data:/data
+    command: ['redis-server', '--appendonly', 'yes']
+
+volumes:
+  redis_data:
