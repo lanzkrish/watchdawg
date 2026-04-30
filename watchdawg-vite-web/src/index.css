@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.input {
+  @apply w-full p-3 bg-gray-800 rounded-xl outline-none;
+}
+
+.card {
+  @apply bg-gray-900/60 backdrop-blur-xl border border-gray-700 p-5 rounded-2xl shadow-lg;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.08);
+}

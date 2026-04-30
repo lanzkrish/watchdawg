@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WorkSync Agent</title>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <!-- STATUS -->
+    <div class="status">
+      <span class="dot"></span>
+      <span>Tracking Active</span>
+    </div>
+
+    <p class="sub">
+      Your activity is being monitored for productivity insights.
+    </p>
+
+    <!-- STATS (STATIC FOR NOW) -->
+    <div class="stats">
+      <div>
+        <p class="label">Session</p>
+        <p id="time">00:00:00</p>
+      </div>
+
+      <div>
+        <p class="label">Status</p>
+        <p class="active">Active</p>
+      </div>
+    </div>
+
+    <!-- ACTION -->
+    <button id="logoutBtn" onclick="logout()">Logout</button>
+
+    <p id="msg"></p>
+
+  </div>
+
+  <script>
+    const msg = document.getElementById("msg");
+    const btn = document.getElementById("logoutBtn");
+
+    /* ⏱ SESSION TIMER (simple demo) */
+    let seconds = 0;
+    setInterval(() => {
+      seconds++;
+      const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+      const s = String(seconds % 60).padStart(2, "0");
+
+      document.getElementById("time").innerText = `${h}:${m}:${s}`;
+    }, 1000);
+
+    function logout() {
+      btn.disabled = true;
+      btn.innerText = "Logging out...";
+
+      try {
+        window.electronAPI.logout();
+      } catch (err) {
+        show("Logout failed ❌");
+        btn.disabled = false;
+        btn.innerText = "Logout";
+      }
+    }
+
+    function show(text) {
+      msg.innerText = text;
+    }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #0b0f17;
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .card {
+      width: 360px;
+      padding: 30px;
+      background: #111827;
+      border-radius: 14px;
+      border: 1px solid #1f2937;
+      text-align: center;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.45);
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #22c55e;
+    }
+
+    .sub {
+      color: #9ca3af;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      background: #0f172a;
+      border: 1px solid #1f2937;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 20px;
+    }
+
+    .label {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .active {
+      color: #22c55e;
+      font-weight: 600;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #ef4444;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #dc2626;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #msg {
+      margin-top: 12px;
+      font-size: 13px;
+      color: #f87171;
+      min-height: 16px;
+    }
+  </style>
+
+</body>
+</html>
